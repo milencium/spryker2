@@ -1,0 +1,209 @@
+zed-biznis logika
+fasada- entry point u zed biznis layer
+controller prima datu od submitane forme i onda calla metodu
+od fasade da bih spremio formu
+
+setup workenv
+
+	
+https://mstart.atlassian.net/wiki/spaces/FEC/pages/1957986305/Onboarding+configuration
+
+
+
+dodat natuknicu za prvo instalirat Docker
+dodat natuknicu da se instalira wsl prije dockera
+
+kako sada dodati odredjene linije, to napraviti sa notepad++ koji je runnan kao administrator
+
+bolji path do resolv.conf
+
+Kako sada pristupit resolv.conf fileu ?
+Proxy konfiguracija nije jasna do kraja
+
+stavit redne brojeve na korake
+
+za usera privilegije stavit linux
+
+QXkQ43KknP34rV7H5xd3 sifra od app bitbucketa
+
+1.instalira wsl
+2.instalira docker i namistija postavke
+3.fix dns
+4.proxy configuration
+5.importani certifikati
+check out project
+
+Spryker dokumentacija:
+SEOS main parts objasnit
+
+
+1.dignit docker
+2.spojit se na bazu
+3.napravit crud
+4.proucit crud
+
+sudo bash -c "echo '127.0.0.1 backend-api.at.spryker.local backend-api.de.spryker.local backend-api.us.spryker.local backend-gateway.at.spryker.local backend-gateway.de.spryker.local backend-gateway.us.spryker.local backoffice.at.spryker.local backoffice.de.spryker.local backoffice.us.spryker.local glue.at.spryker.local glue.de.spryker.local glue.us.spryker.local mail.spryker.local queue.spryker.local redis-commander.spryker.local scheduler.spryker.local spryker.local swagger.spryker.local yves.at.spryker.local yves.de.spryker.local yves.us.spryker.local' >> /etc/hosts"
+
+
+CRUD-Zed
+https://docs.spryker.com/docs/scos/dev/tutorials-and-howtos/introduction-tutorials/tutorial-architectural-walkthrough-spryker-commerce-os.html#build-the-hellospryker-module-in-zed-to-reverse-the-string
+1.napravit HelloSpryker\Communication\Controller, dodat twig
+2.otic na link https://zed.mysprykershop.com/hello-spryker da bi se vidio prikaz
+3.Napravit novi folder Business sa Facade, Factory, Model i mozda interface
+Model performa biznis logiku, Factory instancira objekt i injecta njegov dependency, Facade radi kao main API
+
+Crud-Yves
+1.Dodat novi Yves modul pod imenom HelloSpryker te dodat kontrolera koji returna view
+2.Kreirat folder Plugin, Router i tu kreirat routera koji builda /hello-spryker rutu
+3.registrirat  HelloSprykerRouteProviderPlugin u aplikaciji tako da aplikacija zna za kontrolerovu akciju 
+4.dodat twig
+
+Kreiranje DTO-a i njegovo korištenje
+docker/sdk console transfer:generate
+
+Da bi se mogla slati data iz Yves u Zed i općenito za komunikaciju između objekata
+
+stavit na github napravljeno
+
+primjeri:
+https://github.com/theravel/b2b-demo-shop/pulls
+https://docs.spryker.com/docs/scos/dev/tutorials-and-howtos/introduction-tutorials/tutorial-architectural-walkthrough-spryker-commerce-os.html
+
+
+Spryker Technology overview
+Yves-accounts for frontend functionality
+Zed-place for backend where all heavily calculations happen
+Client-layer između backenda i frontenda which provides data 
+access infrastructure to handle all interactions with data storage and a search engine
+
+Dodatni slojevi:
+Shared-contains code that can be shared among the application layers
+Service-represents Spryker's multi-purpose library to be used in all application layers
+
+The Spryker system is split into smaller bricks, called modules.
+Moduli sluze da koristimo šta treba.
+Yves se možda može podjelit na Glue API i Clienta
+
+Spryker Jarvis is a tool that helps you update your Spryker projects.
+Providing an overview of outdated dependencies.
+Jarvis, to assist you in keeping track of your versions and planning your migration efficiently.
+
+Webinar-OMS-order managment system and state machine 12/18
+State, transition, event, command
+The order state machine is a computation model that describes the sequential logic of the (sales) order process.
+There are five main concepts used in the Spryker order state machine:
+State-describes the state of the process
+Transition-forwards one state to another in a row
+Event-determines a trigger for the transition
+Condition-outlines a specific implementation of conditional decision logic
+Command-defines extra functionalities added to an event
+
+Data exchange using CSV files, import and export
+
+Multi-store concept
+To keep critical systems, data, teams more separated - or, in the opposite case, consolidated  
+you can have one Spryker installation or multiple. 
+
+Xml na osnovu runnanja komande ce kreirat php objket i updejtat database
+docker/sdk console propel:install
+
+Factory
+Dependency injection
+If an objects depends on other objects then its better to inject them from 
+a dedicated provider rather then go shopping each time
+
+Fasada-služi za listanje methods available
+
+Važno za Factory
+All models are instantiated in factory, all required classes are injected, all return values are interfaces
+
+Dependency provider-extenda abstract koji dolazi out of the box i služi kao dependency provider
+Dependecy provider služi za providanje dependecya koje trebamo providat u objektu
+
+Zed application layer ima ove foldere: Presentation layer, Communication layer, Business layer, Presistance layer
+Yves application layer: Presentation layer
+Client application layer: Communication layer
+
+Layered arhitecture:
+Presentation layer: twig,scss,js
+Communication layer: controllers, tables, forms, plugins
+Business layer: facade and business logic
+Presistance layer: queries, entities, schema
+
+docker/sdk transfer:generate
+docker/sdk code:sniff:arhitecture
+
+
+Tutorial reverse string:
+https://docs.spryker.com/docs/scos/dev/tutorials-and-howtos/introduction-tutorials/tutorial-architectural-walkthrough-spryker-commerce-os.html#build-the-hellospryker-module-in-zed-to-reverse-the-string
+
+Gotovi kod:
+https://github.com/theravel/b2b-demo-shop/pull/1/commits/bf3281471622557ec7cc8a1dd2adae31798bd914#diff-9706f0953c9be17d1d94ee44312be746434a4dd31da7fb410d6d81f58a072276
+
+Testiranje:
+https://mstart.atlassian.net/wiki/spaces/ME/pages/2096726035/Unit+testing
+
+Stvari koje mi nisu jasne: 
+ako je yves frontend sa twigovima, zašto onda netko drugi radi frontend, jel se šalju requestovi sa be na fe taj novi 
+tj gdje je onda api endpoint sa kojega se šalje, jel to u GLUE apiju ili Clientu, koliko sam skužio oni su dijelovi Yvesa
+Il nama ovaj Yves služi samo za testiranje.
+
+Jel biznis logika sadržana u modelu pa onda izražena preko objekta koji se instancira u faktoriju ? 
+Fasada služi za listanje metoda da ne moramo svaku klasu zasebno koristit ? Ponovit malo od Garya interfejsove
+Dependency provider bolje objašnjenje.
+
+Nije mi točno jasno šta se događa u modulu koji konektira yves to zed
+
+Tutorial1:
+U controlleru se seta string u dto i poziva se reverse string, nakon toga sljedi route provider i twig template
+Prvo kreirat samo new String Reverser pa naknadno dodati ostalo sve
+Biznis factory instancira objekte preko interfejsa: new StringReverser, new StringReader, new StringWriter
+Fasada extenda AbstractFacade i implementira HelloSprykerInterface i ima ove metode 
+Interfejs ima također te metode
+Biznis logika je podjeljena u u razlicite fajlove sa svaki svojim interfejsom:
+StringReader.php i StringReaderInterface.php
+StringReverser.php i StringReverserInterface.php
+StringWriter.php i StringWriterInterface.php
+Sada sljedi gateway
+Onda ide Presistance sa HelloSprykerEntityManager.php i implementira svoj interfejs, 
+ide PersistanceFactory i Repository, Repository interface twig i xml schema dto objekta
+ovaj Persistance folder se oslanja na Orm folder
+
+https://academy.spryker.com/learn/course/89/play/495/architecture-walkthrough bolje objašnjenje
+
+prepisat cijeli projekt vjezba, gledat paralelno u tutorial i kod
+
+Testiranje, unit testovi i codeception
+Testiranje na Sprykeru:
+root codeception.yml file
+Setup:
+docker/sdk testing codecept generate:cest {ModuleName} {ClassName}
+ovo generira prazni Codeception modul unutar pyz/tests
+Najkorištenije naredbe:
+vendor/bin/codecept build - generates base classes for all suites
+vendor/bin/codecept run - runs all the test suites
+Run tests: 
+docker/sdk testing -x codecept run -c tests/PyzTest/Zed/{ModuleName}
+docker/sdk testing codecept run -c tests/PyzTest/Zed/{ModuleName}
+
+Pogledat testove od bornfighta za symfony
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
